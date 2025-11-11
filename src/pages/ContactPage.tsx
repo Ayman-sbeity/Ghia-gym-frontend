@@ -9,22 +9,163 @@ import {
   Paper,
   Alert,
   CircularProgress,
+  Fade,
+  Zoom,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled, keyframes } from "@mui/material/styles";
+import { COLORS } from "../assets/themeColors";
+import EmailIcon from "@mui/icons-material/Email";
+import PhoneIcon from "@mui/icons-material/Phone";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import SendIcon from "@mui/icons-material/Send";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 const StyledContainer = styled(Container)(({ theme }) => ({
-  paddingTop: theme.spacing(8),
-  paddingBottom: theme.spacing(8),
-  maxWidth: "800px",
+  paddingTop: theme.spacing(12),
+  paddingBottom: theme.spacing(12),
+  maxWidth: "1400px",
+  position: "relative",
 }));
 
-const ContactSection = styled(Box)(({ theme }) => ({
-  marginBottom: theme.spacing(6),
+const HeroSection = styled(Box)(({ theme }) => ({
+  textAlign: "center",
+  marginBottom: theme.spacing(8),
+  animation: `${fadeIn} 0.8s ease-out`,
+  "& .hero-title": {
+    fontSize: "3.5rem",
+    fontWeight: 800,
+    background: `linear-gradient(135deg, ${COLORS.PURPLE_PRIMARY} 0%, ${COLORS.PURPLE_DEEP} 100%)`,
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
+    marginBottom: theme.spacing(2),
+    letterSpacing: "0.02em",
+    [theme.breakpoints.down("md")]: {
+      fontSize: "2.5rem",
+    },
+  },
+  "& .hero-subtitle": {
+    fontSize: "1.2rem",
+    color: COLORS.FOOTER_TEXT,
+    maxWidth: "700px",
+    margin: "0 auto",
+    lineHeight: 1.8,
+    opacity: 0.9,
+  },
+}));
+
+const ContactInfoCard = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(4),
+  height: "100%",
+  background: `linear-gradient(135deg, ${COLORS.PURPLE_PRIMARY}15 0%, ${COLORS.PURPLE_DEEP}10 100%)`,
+  backdropFilter: "blur(10px)",
+  borderRadius: theme.spacing(2),
+  border: `1px solid ${COLORS.PURPLE_PRIMARY}30`,
+  transition: "all 0.3s ease",
+  cursor: "pointer",
+  "&:hover": {
+    transform: "translateY(-8px)",
+    boxShadow: `0 12px 40px ${COLORS.PURPLE_PRIMARY}25`,
+    borderColor: COLORS.PURPLE_PRIMARY,
+  },
+}));
+
+const IconWrapper = styled(Box)(({ theme }) => ({
+  width: 64,
+  height: 64,
+  borderRadius: "50%",
+  background: `linear-gradient(135deg, ${COLORS.PURPLE_PRIMARY} 0%, ${COLORS.PURPLE_DEEP} 100%)`,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  marginBottom: theme.spacing(2),
+  boxShadow: `0 8px 24px ${COLORS.PURPLE_PRIMARY}40`,
+  "& svg": {
+    fontSize: 32,
+    color: "white",
+  },
 }));
 
 const FormPaper = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(4),
-  backgroundColor: "white",
+  padding: theme.spacing(5),
+  background: "linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)",
+  borderRadius: theme.spacing(3),
+  boxShadow: `0 20px 60px rgba(0, 0, 0, 0.1)`,
+  border: `1px solid ${COLORS.PURPLE_PRIMARY}20`,
+  transition: "all 0.3s ease",
+  "&:hover": {
+    boxShadow: `0 25px 70px ${COLORS.PURPLE_PRIMARY}20`,
+  },
+}));
+
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  "& .MuiOutlinedInput-root": {
+    borderRadius: theme.spacing(1.5),
+    backgroundColor: "white",
+    transition: "all 0.3s ease",
+    "& fieldset": {
+      borderColor: COLORS.FOOTER_LINK,
+      borderWidth: 2,
+    },
+    "&:hover": {
+      backgroundColor: "#fafbfc",
+      "& fieldset": {
+        borderColor: COLORS.PURPLE_PRIMARY,
+      },
+    },
+    "&.Mui-focused": {
+      backgroundColor: "white",
+      boxShadow: `0 0 0 3px ${COLORS.PURPLE_PRIMARY}20`,
+      "& fieldset": {
+        borderColor: COLORS.PURPLE_PRIMARY,
+        borderWidth: 2,
+      },
+    },
+    "& input, & textarea": {
+      color: COLORS.LOGO_DEEP,
+      fontSize: "1rem",
+    },
+  },
+  "& .MuiInputLabel-root": {
+    color: COLORS.LOGO_DEEP,
+    fontWeight: 600,
+    "&.Mui-focused": {
+      color: COLORS.PURPLE_PRIMARY,
+    },
+  },
+}));
+
+const SubmitButton = styled(Button)(({ theme }) => ({
+  padding: "14px 48px",
+  fontSize: "1.1rem",
+  fontWeight: 700,
+  textTransform: "uppercase",
+  letterSpacing: "0.1em",
+  borderRadius: theme.spacing(1.5),
+  background: `linear-gradient(135deg, ${COLORS.PURPLE_PRIMARY} 0%, ${COLORS.PURPLE_DEEP} 100%)`,
+  color: "white",
+  boxShadow: `0 8px 24px ${COLORS.PURPLE_PRIMARY}40`,
+  transition: "all 0.3s ease",
+  "&:hover": {
+    background: `linear-gradient(135deg, ${COLORS.PURPLE_DEEP} 0%, ${COLORS.PURPLE_PRIMARY} 100%)`,
+    transform: "translateY(-2px)",
+    boxShadow: `0 12px 32px ${COLORS.PURPLE_PRIMARY}50`,
+  },
+  "&:disabled": {
+    background: "#e0e0e0",
+    color: "#999",
+    boxShadow: "none",
+  },
 }));
 
 const ContactPage: React.FC = () => {
@@ -51,6 +192,13 @@ const ContactPage: React.FC = () => {
     setLoading(true);
     setError("");
     setSuccess(false);
+
+    const validationError = validateForm(formData);
+    if (validationError) {
+      setError(validationError);
+      setLoading(false);
+      return;
+    }
 
     try {
       const response = await fetch(`${API_BASE_URL}/contact`, {
@@ -81,206 +229,253 @@ const ContactPage: React.FC = () => {
     }
   };
 
+  const validateForm = (data: typeof formData) => {
+    if (!data.name || data.name.trim().length < 2)
+      return "Please enter your full name.";
+    if (!data.email || !/^\S+@\S+\.\S+$/.test(data.email))
+      return "Please enter a valid email address.";
+    if (!data.message || data.message.trim().length < 10)
+      return "Message should be at least 10 characters long.";
+    return null;
+  };
+
+  const contactInfo = [
+    {
+      icon: <LocationOnIcon />,
+      title: "Visit Us",
+      details: ["Ghia Gym Headquarters", "PO Box 13124", "Austin, TX 78711"],
+    },
+    {
+      icon: <EmailIcon />,
+      title: "Email Us",
+      details: ["support@ghiagym.com", "info@ghiagym.com"],
+    },
+    {
+      icon: <PhoneIcon />,
+      title: "Call Us",
+      details: [
+        "Hours: 9am - 5pm (CST)",
+        "Monday - Friday",
+        "844-662-3273",
+      ],
+    },
+  ];
+
   return (
-    <StyledContainer>
-      <Box textAlign="center" mb={6}>
-        <Typography
-          variant="h3"
-          component="h1"
-          fontWeight="bold"
-          letterSpacing="0.1em"
-          mb={2}
-          sx={{ textTransform: "uppercase", color: "#333" }}
+    <Box sx={{ background: "transperant" }}>
+      <StyledContainer>
+        {/* Hero Section */}
+        <HeroSection>
+          <Typography className="hero-title" variant="h1" component="h1">
+            Get In Touch
+          </Typography>
+          <Typography className="hero-subtitle" variant="h6">
+            Have questions? We'd love to hear from you. Send us a message and
+            we'll respond as soon as possible.
+          </Typography>
+        </HeroSection>
+
+        {/* Contact Info Cards */}
+        <Box
+          sx={{
+            display: "flex",
+            gap: 4,
+            mb: 8,
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
         >
-          CONTACT US
-        </Typography>
-        <Typography
-          variant="body1"
-          color="text.secondary"
-          maxWidth="600px"
-          mx="auto"
-        >
-          Hey! We are located in Washington and Texas. Feel free to use the
-          contact form to the right to reach out to us, or write us the old fashion
-          way.
-        </Typography>
-      </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-          gap: 4,
-        }}
-      >
-
-        <Box sx={{ flex: { xs: "none", md: "0 0 40%" } }}>
-          <ContactSection>
-            <Typography
-              variant="h6"
-              fontWeight="bold"
-              mb={2}
-              sx={{ textTransform: "uppercase", letterSpacing: "0.05em" }}
+          {contactInfo.map((info, index) => (
+            <Box
+              key={index}
+              sx={{
+                flex: { xs: "1 1 100%", md: "1 1 calc(33.333% - 32px)" },
+                minWidth: { xs: "100%", sm: "280px", md: "0" },
+              }}
             >
-              SNAIL MAIL
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Beardbrand
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              PO Box 13124
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Austin, TX 78711
-            </Typography>
-          </ContactSection>
-
-          <ContactSection>
-            <Typography
-              variant="h6"
-              fontWeight="bold"
-              mb={2}
-              sx={{ textTransform: "uppercase", letterSpacing: "0.05em" }}
-            >
-              ELECTRONIC MAIL
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              support@beardbrand.com
-            </Typography>
-          </ContactSection>
-
-          <ContactSection>
-            <Typography
-              variant="h6"
-              fontWeight="bold"
-              mb={2}
-              sx={{ textTransform: "uppercase", letterSpacing: "0.05em" }}
-            >
-              PHONE SUPPORT
-            </Typography>
-            <Typography variant="body2" color="text.secondary" mb={1}>
-              Hours: 9am - 5pm (CST) Monday - Friday
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              844-662-3273
-            </Typography>
-          </ContactSection>
+              <Zoom in={true} style={{ transitionDelay: `${index * 100}ms` }}>
+                <ContactInfoCard elevation={0}>
+                  <IconWrapper>{info.icon}</IconWrapper>
+                  <Typography
+                    variant="h5"
+                    fontWeight="bold"
+                    mb={2}
+                    sx={{ color: COLORS.LOGO_DEEP }}
+                  >
+                    {info.title}
+                  </Typography>
+                  {info.details.map((detail, idx) => (
+                    <Typography
+                      key={idx}
+                      variant="body1"
+                      sx={{
+                        color: COLORS.FOOTER_TEXT,
+                        mb: 0.5,
+                        lineHeight: 1.8,
+                      }}
+                    >
+                      {detail}
+                    </Typography>
+                  ))}
+                </ContactInfoCard>
+              </Zoom>
+            </Box>
+          ))}
         </Box>
 
-        <Box sx={{ flex: 1 }}>
-          <FormPaper elevation={1}>
+        {/* Contact Form */}
+        <Fade in={true} timeout={1000}>
+          <FormPaper elevation={0}>
+            <Box textAlign="center" mb={4}>
+              <Typography
+                variant="h4"
+                fontWeight="bold"
+                mb={1}
+                sx={{ color: COLORS.LOGO_DEEP }}
+              >
+                Send Us a Message
+              </Typography>
+              <Typography variant="body1" sx={{ color: COLORS.FOOTER_TEXT }}>
+                Fill out the form below and we'll get back to you within 24
+                hours
+              </Typography>
+            </Box>
+
             {success && (
-              <Alert severity="success" sx={{ mb: 3 }}>
-                Thank you for contacting us! We'll get back to you soon.
-              </Alert>
+              <Fade in={success}>
+                <Alert
+                  severity="success"
+                  sx={{
+                    mb: 3,
+                    borderRadius: 2,
+                    "& .MuiAlert-icon": {
+                      fontSize: 28,
+                    },
+                  }}
+                >
+                  <Typography variant="body1" fontWeight="600">
+                    Thank you for contacting us!
+                  </Typography>
+                  <Typography variant="body2">
+                    We'll get back to you soon.
+                  </Typography>
+                </Alert>
+              </Fade>
             )}
 
             {error && (
-              <Alert severity="error" sx={{ mb: 3 }}>
-                {error}
-              </Alert>
+              <Fade in={!!error}>
+                <Alert
+                  severity="error"
+                  sx={{
+                    mb: 3,
+                    borderRadius: 2,
+                    "& .MuiAlert-icon": {
+                      fontSize: 28,
+                    },
+                  }}
+                >
+                  {error}
+                </Alert>
+              </Fade>
             )}
 
             <form onSubmit={handleSubmit}>
               <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                <TextField
-                  fullWidth
-                  label="NAME"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  variant="outlined"
+                <Box
                   sx={{
-                    "& .MuiOutlinedInput-root": {
-                      backgroundColor: "#f8f9fa",
-                    },
+                    display: "flex",
+                    gap: 3,
+                    flexDirection: { xs: "column", md: "row" },
                   }}
-                />
+                >
+                  <StyledTextField
+                    fullWidth
+                    label="Full Name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    placeholder="John Doe"
+                  />
 
-                <TextField
-                  fullWidth
-                  label="EMAIL"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  variant="outlined"
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      backgroundColor: "#f8f9fa",
-                    },
-                  }}
-                />
+                  <StyledTextField
+                    fullWidth
+                    label="Email Address"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    placeholder="john@example.com"
+                  />
+                </Box>
 
-                <TextField
+                <StyledTextField
                   fullWidth
-                  label="PHONE NUMBER"
+                  label="Phone Number"
                   name="phoneNumber"
                   value={formData.phoneNumber}
                   onChange={handleChange}
-                  variant="outlined"
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      backgroundColor: "#f8f9fa",
-                    },
-                  }}
+                  type="tel"
+                  inputProps={{ pattern: "[0-9\\-\\s+()]*" }}
+                  placeholder="+1 (555) 123-4567"
                 />
 
-                <TextField
+                <StyledTextField
                   fullWidth
-                  label="MESSAGE"
+                  label="Your Message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   required
                   multiline
-                  rows={4}
-                  variant="outlined"
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      backgroundColor: "#f8f9fa",
-                    },
-                  }}
+                  rows={6}
+                  placeholder="Tell us how we can help you..."
                 />
 
-                <Button
-                  type="submit"
-                  variant="contained"
-                  size="large"
-                  disabled={loading}
-                  sx={{
-                    backgroundColor: "#333",
-                    color: "white",
-                    padding: "12px 48px",
-                    fontSize: "1rem",
-                    fontWeight: "bold",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    "&:hover": {
-                      backgroundColor: "#555",
-                    },
-                    "&:disabled": {
-                      backgroundColor: "#ccc",
-                    },
-                  }}
-                >
-                  {loading ? (
-                    <>
-                      <CircularProgress size={20} sx={{ mr: 1, color: "white" }} />
-                      Sending...
-                    </>
-                  ) : (
-                    "Send Message"
-                  )}
-                </Button>
+                <Box sx={{ textAlign: "center", mt: 2 }}>
+                  <SubmitButton
+                    type="submit"
+                    variant="contained"
+                    size="large"
+                    disabled={loading}
+                    endIcon={
+                      loading ? (
+                        <CircularProgress size={20} sx={{ color: "white" }} />
+                      ) : (
+                        <SendIcon />
+                      )
+                    }
+                  >
+                    {loading ? "Sending..." : "Send Message"}
+                  </SubmitButton>
+                </Box>
               </Box>
             </form>
           </FormPaper>
+        </Fade>
+
+        {/* Additional Info Section */}
+        <Box sx={{ mt: 8, textAlign: "center" }}>
+          <Typography
+            variant="h5"
+            fontWeight="bold"
+            mb={2}
+            sx={{ color: COLORS.LOGO_DEEP }}
+          >
+            Prefer to talk in person?
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{ color: COLORS.FOOTER_TEXT, maxWidth: "600px", mx: "auto" }}
+          >
+            Visit our gym during business hours or schedule a tour. We're here
+            to help you achieve your fitness goals!
+          </Typography>
         </Box>
-      </Box>
-    </StyledContainer>
+      </StyledContainer>
+    </Box>
   );
 };
 
