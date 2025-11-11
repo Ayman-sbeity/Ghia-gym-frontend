@@ -10,8 +10,9 @@ export default function HomePage() {
     <>
       <ArtisticCarousel />
       <AboutUsSection />
-      {/* <NewArrivalsSection />
+      <NewArrivalsSection />
       <FeaturedProductsSection />
+      {/* 
       <SpecialOffersSection /> */}
     </>
   );

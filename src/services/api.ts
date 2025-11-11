@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { type AxiosRequestConfig } from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -69,7 +69,10 @@ interface ProductFilterOptions {
   includeInactive?: boolean;
 }
 
-export const fetchItems = async (options: ProductFilterOptions = { showAll: true }) => {
+export const fetchItems = async (
+  options: ProductFilterOptions = { showAll: true },
+  config?: AxiosRequestConfig
+) => {
   const params: Record<string, any> = {};
   if (typeof options.showAll !== 'undefined') params.showAll = options.showAll ? 'true' : 'false';
   if (typeof options.includeInactive !== 'undefined') params.includeInactive = options.includeInactive ? 'true' : 'false';
@@ -79,7 +82,7 @@ export const fetchItems = async (options: ProductFilterOptions = { showAll: true
   if (typeof options.category !== 'undefined') params.category = options.category;
   if (typeof options.search !== 'undefined') params.search = options.search;
 
-  const response = await api.get('/products', { params });
+  const response = await api.get('/products', { params, ...(config || {}) });
   return response.data.products || response.data;
 };
 
@@ -96,16 +99,13 @@ export const getProductsCount = async () => {
 export const addItem = async (item: Omit<Item, '_id' | 'id' | 'createdAt' | 'updatedAt'>) => {
   const response = await api.post('/products', item);
   try {
-    // mark invalidation in localStorage (helps cross-tab) and dispatch an in-window event
     const key = 'product-items';
     try {
       localStorage.setItem(`cacheInvalidation:${key}`, String(Date.now()));
     } catch (e) {
-      // ignore localStorage errors
     }
     window.dispatchEvent(new CustomEvent('cacheInvalidated', { detail: { key } }));
   } catch (e) {
-    // ignore in non-browser environments
   }
   return response.data;
 };
@@ -119,7 +119,6 @@ export const editItem = async (id: string, item: Partial<Item>) => {
     } catch (e) {}
     window.dispatchEvent(new CustomEvent('cacheInvalidated', { detail: { key } }));
   } catch (e) {
-    // ignore
   }
   return response.data;
 };
@@ -133,7 +132,6 @@ export const deleteItem = async (id: string) => {
     } catch (e) {}
     window.dispatchEvent(new CustomEvent('cacheInvalidated', { detail: { key } }));
   } catch (e) {
-    // ignore
   }
   return response.data;
 };

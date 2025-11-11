@@ -16,19 +16,19 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         flexDirection: "column",
         width: "100%",
         minHeight: "100vh",
-        bgcolor: "white",
+        bgcolor: "transparent",
         margin: 0,
         padding: 0,
         overflowX: "hidden",
-        overflowY: "auto",
       }}
     >
       <NavBar />
       <Box
+        component="main"
         sx={{
           flex: 1,
           width: "100%",
-          margin: 0,
+          marginTop: { xs: "70px", sm: "80px" },
           padding: 0,
           overflowX: "hidden",
         }}

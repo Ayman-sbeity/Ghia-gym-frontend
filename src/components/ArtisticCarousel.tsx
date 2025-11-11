@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
+import { COLORS } from "../assets/themeColors";
 
 const ArtisticCarousel: React.FC = () => {
   return (
@@ -12,16 +13,17 @@ const ArtisticCarousel: React.FC = () => {
       }}
     >
       <Box
-        component="img"
-        src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=2000&q=80"
-        alt="Modern gym with state-of-the-art equipment"
-        sx={{
+  component="img"
+  src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=2000&q=80"
+  alt="Athlete preparing a barbell in the gym"
+          sx={{
           width: "100%",
           height: "100%",
           objectFit: "cover",
           position: "absolute",
           top: 0,
           left: 0,
+          filter: "saturate(1.05) brightness(0.92)",
         }}
       />
 
@@ -32,7 +34,8 @@ const ArtisticCarousel: React.FC = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.4)",
+          backgroundImage: `linear-gradient(180deg, rgba(45,27,61,0.62) 0%, rgba(168,85,247,0.22) 100%)`,
+          backdropFilter: "blur(4px)",
         }}
       />
 
@@ -57,7 +60,7 @@ const ArtisticCarousel: React.FC = () => {
             textTransform: "uppercase",
             mb: 2,
             opacity: 0.95,
-            color: "#FFD700",
+            color: COLORS.PURPLE_ACCENT,
           }}
         >
           TRANSFORM YOUR BODY & MIND
@@ -81,7 +84,7 @@ const ArtisticCarousel: React.FC = () => {
         <Button
           variant="contained"
           sx={{
-            backgroundColor: "#FF6B35",
+            background: COLORS.GRADIENT_CTA,
             color: "white",
             px: 4,
             py: 1.5,
@@ -89,10 +92,10 @@ const ArtisticCarousel: React.FC = () => {
             fontWeight: 600,
             textTransform: "uppercase",
             borderRadius: 1,
-            boxShadow: "0 4px 12px rgba(255,107,53,0.4)",
+            boxShadow: "0 4px 12px rgba(147,51,234,0.4)",
             "&:hover": {
-              backgroundColor: "#E65A2E",
-              boxShadow: "0 6px 16px rgba(255,107,53,0.6)",
+              background: COLORS.GRADIENT_CTA_HOVER,
+              boxShadow: "0 6px 16px rgba(147,51,234,0.6)",
               transform: "translateY(-2px)",
               transition: "all 0.3s ease",
             },
@@ -120,8 +123,8 @@ const ArtisticCarousel: React.FC = () => {
             sx={{
               width: 40,
               height: 40,
-              backgroundColor: "rgba(255, 255, 255, 0.1)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
+              backgroundColor: "rgba(255, 255, 255, 0.08)",
+              border: `1px solid rgba(168,85,247,0.25)`,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -131,7 +134,7 @@ const ArtisticCarousel: React.FC = () => {
               fontWeight: "bold",
               transition: "all 0.3s ease",
               "&:hover": {
-                backgroundColor: "rgba(255, 255, 255, 0.2)",
+                backgroundColor: "rgba(255, 255, 255, 0.15)",
                 transform: "scale(1.1)",
               },
             }}

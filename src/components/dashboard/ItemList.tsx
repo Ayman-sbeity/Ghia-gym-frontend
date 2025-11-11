@@ -30,13 +30,15 @@ const ItemList: React.FC = () => {
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    loadItems();
+    const controller = new AbortController();
+    loadItems(controller.signal);
+    return () => controller.abort();
   }, []);
 
-  const loadItems = async () => {
+  const loadItems = async (signal?: AbortSignal) => {
     try {
       setLoading(true);
-      const data = await fetchItems();
+      const data = await fetchItems({}, { signal });
       setItems(Array.isArray(data) ? data : []);
       setError("");
     } catch (err: any) {
@@ -93,7 +95,7 @@ const ItemList: React.FC = () => {
     return (
       <Alert severity="error" sx={{ mb: 2 }}>
         {error}
-        <Button onClick={loadItems} sx={{ ml: 2 }}>
+          <Button onClick={() => loadItems()} sx={{ ml: 2 }}>
           Retry
         </Button>
       </Alert>

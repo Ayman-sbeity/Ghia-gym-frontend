@@ -17,7 +17,7 @@ export const useItems = () => {
     loading,
     error: fetchError,
     refresh,
-  } = useCachedData<Item[]>("all-items", () => fetchItems({}));
+  } = useCachedData<Item[]>("all-items", (signal) => fetchItems({}, { signal }));
 
   useEffect(() => {
     if (cachedItems) {

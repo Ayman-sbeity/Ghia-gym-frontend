@@ -21,15 +21,20 @@ export const ItemProvider: React.FC<{ children: React.ReactNode }> = ({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const controller = new AbortController();
     const loadItems = async () => {
       try {
         setLoading(true);
         setError(null);
 
         try {
-          const fetchedItems = await fetchItems();
+          const fetchedItems = await fetchItems({}, { signal: controller.signal });
           setItems(fetchedItems);
         } catch (apiError) {
+          if ((apiError as any)?.name === "AbortError") {
+            // Request was cancelled - do nothing
+            return;
+          }
           console.warn("Backend not available, using sample data:", apiError);
           const sampleItems: Item[] = [
             {
@@ -74,6 +79,10 @@ export const ItemProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     loadItems();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const addItem = (item: Item) => {

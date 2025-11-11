@@ -3,7 +3,28 @@
   height: 100%;
   margin: 0 !important;
   padding: 0;
+  
   overflow-x: hidden;
+}
+
+/* Set the page background to the same deep purple gradient used across the theme.
+   This fills the entire viewport and supports elements that have transparent backgrounds
+   to reveal the same background (e.g. About Us section). */
+html,
+body,
+ #root {
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 50%, #3d2563 100%);
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff; /* default text color for contrast */
 }
 
 .logo {

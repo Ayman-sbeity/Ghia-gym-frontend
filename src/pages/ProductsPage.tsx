@@ -39,7 +39,7 @@ export default function ProductsPage() {
     refresh: refreshProducts,
   } = useCachedData<Item[]>(
     cacheKey,
-    () => fetchItems(fetchOptions),
+    (signal) => fetchItems(fetchOptions, { signal }),
     5 * 60 * 1000
   );
 

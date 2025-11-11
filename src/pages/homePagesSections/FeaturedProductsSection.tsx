@@ -1,4 +1,5 @@
 import React from "react";
+import { COLORS } from "../../assets/themeColors";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -19,13 +20,25 @@ const FeaturedProductsSection: React.FC = () => {
     error,
   } = useCachedData<Item[]>(
     "featured-classes",
-    () => fetchItems({ showAll: false }),
+    (signal) => fetchItems({ showAll: false }, { signal }),
     5 * 60 * 1000
   );
 
   const handleViewAllProducts = () => {
     navigate("/products");
   };
+
+  // Motion variants: container for stagger & item for fade-up with spring for a pro look
+  const containerVariants = {
+    hidden: { opacity: 0, y: 18 },
+    visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.12, delayChildren: 0.06 } },
+  } as const;
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 22 },
+    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 90, damping: 18 } },
+    hover: { y: -6, scale: 1.02, transition: { type: "spring", stiffness: 200, damping: 18 } },
+  } as const;
 
   if (error) {
     return (
@@ -53,16 +66,25 @@ const FeaturedProductsSection: React.FC = () => {
         py: { xs: 6, md: 8 },
         px: { xs: 2, md: 4 },
         margin: 0,
+  backgroundImage: `linear-gradient(90deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0) 65%), linear-gradient(90deg, ${COLORS.PURPLE_DEEP} 0%, ${COLORS.PURPLE_ACCENT} 100%)`,
+  background: `transparent`,
+        color: COLORS.textPrimary,
       }}
     >
-      <Box sx={{ textAlign: "center", mb: { xs: 4, md: 6 } }}>
+  <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={containerVariants}
+      >
+  <Box sx={{ textAlign: "center", mb: { xs: 4, md: 6 } }}>
         <Typography
           variant="h2"
           sx={{
             fontSize: { xs: "2rem", md: "2.5rem" },
             fontWeight: 700,
             mb: 2,
-            color: "text.primary",
+            color: COLORS.textPrimary,
           }}
         >
           Featured Classes & Programs
@@ -71,7 +93,7 @@ const FeaturedProductsSection: React.FC = () => {
           variant="subtitle1"
           sx={{
             fontSize: { xs: "1rem", md: "1.1rem" },
-            color: "text.secondary",
+            color: "rgba(255,255,255,0.85)",
             maxWidth: "600px",
             mx: "auto",
             mb: 3,
@@ -79,9 +101,16 @@ const FeaturedProductsSection: React.FC = () => {
         >
           Discover our most popular fitness programs and training packages designed to help you achieve your goals
         </Typography>
-      </Box>
+  </Box>
+  </motion.div>
 
-      {loading ? (
+  {loading ? (
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={containerVariants}
+        >
         <Box
           sx={{
             display: "grid",
@@ -105,7 +134,14 @@ const FeaturedProductsSection: React.FC = () => {
             </Box>
           ))}
         </Box>
+        </motion.div>
       ) : (
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={containerVariants}
+        >
         <Box
           sx={{
             display: "grid",
@@ -120,24 +156,32 @@ const FeaturedProductsSection: React.FC = () => {
             mb: 4,
           }}
         >
-          {products?.slice(0, 3).map((product, index) => (
+          {products?.slice(0, 3).map((product) => (
             <motion.div
               key={product._id || product.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              variants={itemVariants}
             >
               <ProductCard product={product} />
             </motion.div>
           ))}
-        </Box>
+  </Box>
+  </motion.div>
       )}
 
-      <Box sx={{ textAlign: "center" }}>
+  <motion.div
+        initial={{ opacity: 0, y: 14 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+  <Box sx={{ textAlign: "center" }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, delay: 0.7 }}
+          variants={itemVariants}
+          whileHover={itemVariants.hover}
         >
           <Button
             variant="contained"
@@ -152,9 +196,13 @@ const FeaturedProductsSection: React.FC = () => {
               fontWeight: 600,
               fontSize: "1.1rem",
               boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                backgroundImage: `linear-gradient(90deg, ${COLORS.PURPLE_DEEP} 0%, ${COLORS.PURPLE_ACCENT} 100%)`,
+              color: COLORS.textPrimary,
               "&:hover": {
                 boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
                 transform: "translateY(-2px)",
+                // keep hover consistent with logo colors
+                  backgroundImage: `linear-gradient(90deg, ${COLORS.PURPLE_DEEP} 0%, ${COLORS.PURPLE_PRIMARY} 100%)`,
               },
             }}
           >
@@ -162,6 +210,7 @@ const FeaturedProductsSection: React.FC = () => {
           </Button>
         </motion.div>
       </Box>
+      </motion.div>
     </Box>
   );
 };

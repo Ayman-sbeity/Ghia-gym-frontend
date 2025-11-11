@@ -63,11 +63,11 @@ const ItemTable: React.FC = () => {
     type: "success",
   });
 
-  const fetchItemsData = async () => {
+  const fetchItemsData = async (signal?: AbortSignal) => {
     try {
       setLoading(true);
       setError(null);
-      const data = await fetchItems({ includeInactive: true });
+      const data = await fetchItems({ includeInactive: true }, { signal });
       setItems(data);
     } catch (err: any) {
       setError(err.message || "Failed to fetch items");
@@ -77,7 +77,9 @@ const ItemTable: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchItemsData();
+    const controller = new AbortController();
+    fetchItemsData(controller.signal);
+    return () => controller.abort();
   }, []);
 
   const refreshItems = () => {
