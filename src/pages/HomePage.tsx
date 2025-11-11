@@ -1,9 +1,8 @@
-import Box from "@mui/material/Box";
 import ArtisticCarousel from "../components/ArtisticCarousel";
 import AboutUsSection from "./homePagesSections/AboutUsSection";
 import NewArrivalsSection from "./homePagesSections/NewArrivalsSection";
 import FeaturedProductsSection from "./homePagesSections/FeaturedProductsSection";
-import SpecialOffersSection from "./homePagesSections/SpecialOffersSection";
+import TrainerProfilesSection from "./homePagesSections/TrainerProfilesSection";
 
 export default function HomePage() {
   return (
@@ -12,8 +11,9 @@ export default function HomePage() {
       <AboutUsSection />
       <NewArrivalsSection />
       <FeaturedProductsSection />
-      {/* 
-      <SpecialOffersSection /> */}
+      <TrainerProfilesSection />
+
+
     </>
   );
 }

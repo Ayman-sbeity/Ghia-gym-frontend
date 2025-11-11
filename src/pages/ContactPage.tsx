@@ -253,11 +253,7 @@ const ContactPage: React.FC = () => {
     {
       icon: <PhoneIcon />,
       title: "Call Us",
-      details: [
-        "Hours: 9am - 5pm (CST)",
-        "Monday - Friday",
-        "844-662-3273",
-      ],
+      details: ["Hours: 9am - 5pm (CST)", "Monday - Friday", "844-662-3273"],
     },
   ];
 
@@ -274,8 +270,6 @@ const ContactPage: React.FC = () => {
             we'll respond as soon as possible.
           </Typography>
         </HeroSection>
-
-        {/* Contact Info Cards */}
         <Box
           sx={{
             display: "flex",

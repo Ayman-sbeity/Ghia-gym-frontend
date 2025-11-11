@@ -45,7 +45,6 @@ const NAV_COLORS = {
   magenta: THEME_COLORS.LOGO_MAGENTA,
 };
 
-// Subcomponents
 interface LogoProps {
   onClick: () => void;
 }
@@ -63,6 +62,9 @@ const Logo: React.FC<LogoProps> = ({ onClick }) => (
       alignItems: "center",
       transition: "all 0.4s ease",
       position: "relative",
+      '&:focus': {
+        outline: 'none',
+      },
       "&:hover": {
         transform: "scale(1.08) rotate(2deg)",
   filter: `drop-shadow(0 0 12px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.6)})`,
@@ -157,6 +159,8 @@ interface NavButtonProps {
 const NavButton: React.FC<NavButtonProps> = ({ label, onClick }) => (
   <Button
     onClick={onClick}
+    disableRipple
+    disableFocusRipple
     sx={{
       px: { xs: 2, sm: 2.5, md: 3 },
       py: 1,
@@ -187,6 +191,19 @@ const NavButton: React.FC<NavButtonProps> = ({ label, onClick }) => (
         transform: "translateY(-2px)",
   boxShadow: `0 4px 12px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.3)}`,
       },
+      // remove default browser/MUI focus outline while still keeping focus for accessibility
+      "&:focus": {
+        outline: "none",
+        boxShadow: "none",
+      },
+      "&:focus-visible": {
+        outline: "none",
+        boxShadow: "none",
+      },
+      "&.Mui-focusVisible": {
+        outline: "none",
+        boxShadow: "none",
+      },
       "&::after": {
         content: '""',
         position: "absolute",
@@ -216,6 +233,8 @@ interface CartBadgeProps {
 const CartBadge: React.FC<CartBadgeProps> = ({ itemCount, onClick }) => (
   <IconButton
     onClick={onClick}
+    disableRipple
+    disableFocusRipple
     aria-label={`Shopping cart with ${itemCount} items`}
     sx={{
       color: NAV_COLORS.text,
@@ -225,6 +244,18 @@ const CartBadge: React.FC<CartBadgeProps> = ({ itemCount, onClick }) => (
         backgroundColor: NAV_COLORS.hoverBackground,
         color: NAV_COLORS.textHover,
         transform: "scale(1.15) rotate(5deg)",
+      },
+      "&:focus": {
+        outline: "none",
+        boxShadow: "none",
+      },
+      "&:focus-visible": {
+        outline: "none",
+        boxShadow: "none",
+      },
+      "&.Mui-focusVisible": {
+        outline: "none",
+        boxShadow: "none",
       },
       "&::before": {
         content: '""',
@@ -308,6 +339,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
     </Typography>
     <IconButton
       onClick={onMenuOpen}
+      disableRipple
+      disableFocusRipple
       aria-label="User menu"
       sx={{
         color: NAV_COLORS.text,
@@ -334,10 +367,23 @@ const UserMenu: React.FC<UserMenuProps> = ({
         "&:hover::before": {
           opacity: 1,
         },
+        "&:focus": {
+          outline: "none",
+          boxShadow: "none",
+        },
+        "&:focus-visible": {
+          outline: "none",
+          boxShadow: "none",
+        },
+        "&.Mui-focusVisible": {
+          outline: "none",
+          boxShadow: "none",
+        },
       }}
     >
       <AccountCircle sx={{ fontSize: "1.8rem" }} />
     </IconButton>
+    {/* Remove focus ring for account icon for consistent look */}
     <Menu
       anchorEl={anchorEl}
       open={Boolean(anchorEl)}
@@ -364,6 +410,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
     >
       <MenuItem 
         onClick={onLogout} 
+        disableRipple
         sx={{ 
           px: 3, 
           py: 1.5,
@@ -373,6 +420,18 @@ const UserMenu: React.FC<UserMenuProps> = ({
             backgroundColor: NAV_COLORS.hoverBackground,
             color: NAV_COLORS.textHover,
             transform: "translateX(4px)",
+          },
+          "&:focus": {
+            outline: "none",
+            boxShadow: "none",
+          },
+          "&:focus-visible": {
+            outline: "none",
+            boxShadow: "none",
+          },
+          "&.Mui-focusVisible": {
+            outline: "none",
+            boxShadow: "none",
           },
         }}
       >
@@ -425,10 +484,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     }}
   >
     <Box sx={{ display: "flex", justifyContent: "flex-end", px: 1 }}>
-      <IconButton 
+            <IconButton 
         aria-label="Close menu" 
         onClick={onClose} 
         size="large"
+              disableRipple
+              disableFocusRipple
         sx={{
           color: NAV_COLORS.text,
           transition: "all 0.3s ease",
@@ -447,6 +508,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
         component={Link}
         to={link.path}
         onClick={onClose}
+        disableRipple
         sx={{
           py: 2,
           px: 3,
@@ -472,6 +534,18 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           },
           "&:hover::before": {
             height: "70%",
+          },
+          "&:focus": {
+            outline: "none",
+            boxShadow: "none",
+          },
+          "&:focus-visible": {
+            outline: "none",
+            boxShadow: "none",
+          },
+          "&.Mui-focusVisible": {
+            outline: "none",
+            boxShadow: "none",
           },
         }}
       >
@@ -484,6 +558,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
         component={Link}
         to={link.path}
         onClick={onClose}
+        disableRipple
         sx={{
           py: 2,
           px: 3,
@@ -509,6 +584,18 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           },
           "&:hover::before": {
             height: "70%",
+          },
+          "&:focus": {
+            outline: "none",
+            boxShadow: "none",
+          },
+          "&:focus-visible": {
+            outline: "none",
+            boxShadow: "none",
+          },
+          "&.Mui-focusVisible": {
+            outline: "none",
+            boxShadow: "none",
           },
         }}
       >
@@ -521,6 +608,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           onLogout();
           onClose();
         }}
+        disableRipple
         sx={{
           py: 2,
           px: 3,
@@ -546,6 +634,18 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           },
           "&:hover::before": {
             height: "70%",
+          },
+          "&:focus": {
+            outline: "none",
+            boxShadow: "none",
+          },
+          "&:focus-visible": {
+            outline: "none",
+            boxShadow: "none",
+          },
+          "&.Mui-focusVisible": {
+            outline: "none",
+            boxShadow: "none",
           },
         }}
       >
@@ -677,6 +777,8 @@ const NavBar: React.FC = () => {
                 },
               }}
               size="large"
+              disableRipple
+              disableFocusRipple
             >
               <MenuIcon sx={{ fontSize: "1.8rem" }} />
             </IconButton>

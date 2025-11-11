@@ -6,6 +6,7 @@ import CartPage from "./pages/CartPage";
 import ContactPage from "./pages/ContactPage";
 import MainLayout from "./components/layout/MainLayout";
 import CheckoutPage from "./pages/CheckoutPage";
+import BookingPage from "./pages/BookingPage";
 import Dashboard from "./pages/dashboard/Dashboard";
 import AddItem from "./pages/dashboard/AddItem";
 import EditItem from "./pages/dashboard/EditItem";
@@ -50,6 +51,7 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="products" element={<ProductsPage />} />
             <Route path="contact" element={<ContactPage />} />
+            <Route path="book" element={<BookingPage />} />
             <Route path="cart" element={<CartPage />} />
             <Route path="checkout" element={
               <ProtectedRoute>
