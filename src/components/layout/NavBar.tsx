@@ -71,10 +71,13 @@ const NavBar: React.FC = () => {
     top: 0,
     left: 0,
     right: 0,
+    width: "100%",
     height: { xs: "80px", sm: "90px" },
     boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
     zIndex: 1100,
-    bgcolor: "#fbebeaff", 
+    bgcolor: "#fbebeaff",
+    margin: 0,
+    padding: 0,
   }}
 >
       <Toolbar
@@ -83,7 +86,10 @@ const NavBar: React.FC = () => {
           justifyContent: "space-between",
           px: { xs: 2, sm: 4 },
           height: "100%",
+          width: "100%",
+          maxWidth: "100%",
           borderBottom: "1px solid #e0e0e0",
+          margin: 0,
         }}
       >
       <img
@@ -202,7 +208,7 @@ const NavBar: React.FC = () => {
           <Box
             display="flex"
             flexDirection="row"
-            sx={{ gap: 1, margin: "0 16px" }}
+            sx={{ gap: 1, margin: "0 20px" }}
           >
             {navLinks.map((link) => (
               <Box

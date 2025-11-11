@@ -18,7 +18,7 @@ const FeaturedProductsSection: React.FC = () => {
     loading,
     error,
   } = useCachedData<Item[]>(
-    "featured-products",
+    "featured-classes",
     () => fetchItems({ showAll: false }),
     5 * 60 * 1000
   );
@@ -32,12 +32,14 @@ const FeaturedProductsSection: React.FC = () => {
       <Box
         component="section"
         sx={{
+          width: "100%",
           py: { xs: 6, md: 8 },
           px: { xs: 2, md: 4 },
+          margin: 0,
         }}
       >
         <Alert severity="error" sx={{ maxWidth: 600, mx: "auto" }}>
-          Unable to load featured products. Please try again later.
+          Unable to load featured classes. Please try again later.
         </Alert>
       </Box>
     );
@@ -47,8 +49,10 @@ const FeaturedProductsSection: React.FC = () => {
     <Box
       component="section"
       sx={{
+        width: "100%",
         py: { xs: 6, md: 8 },
         px: { xs: 2, md: 4 },
+        margin: 0,
       }}
     >
       <Box sx={{ textAlign: "center", mb: { xs: 4, md: 6 } }}>
@@ -61,7 +65,7 @@ const FeaturedProductsSection: React.FC = () => {
             color: "text.primary",
           }}
         >
-          Featured Products
+          Featured Classes & Programs
         </Typography>
         <Typography
           variant="subtitle1"
@@ -73,7 +77,7 @@ const FeaturedProductsSection: React.FC = () => {
             mb: 3,
           }}
         >
-          Discover our handpicked selection of the best products just for you
+          Discover our most popular fitness programs and training packages designed to help you achieve your goals
         </Typography>
       </Box>
 
@@ -154,7 +158,7 @@ const FeaturedProductsSection: React.FC = () => {
               },
             }}
           >
-            View All Products
+            View All Classes
           </Button>
         </motion.div>
       </Box>

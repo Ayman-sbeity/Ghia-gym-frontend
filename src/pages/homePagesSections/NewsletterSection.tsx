@@ -46,11 +46,13 @@ const NewsletterSection: React.FC = () => {
     <Box
       component="section"
       sx={{
+        width: "100%",
         py: { xs: 6, md: 8 },
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         color: "white",
         position: "relative",
         overflow: "hidden",
+        margin: 0,
       }}
     >
 

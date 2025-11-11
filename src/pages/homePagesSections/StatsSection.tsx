@@ -46,11 +46,13 @@ const StatsSection: React.FC = () => {
     <Box
       component="section"
       sx={{
+        width: "100%",
         py: { xs: 6, md: 8 },
         background: "linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)",
         color: "white",
         position: "relative",
         overflow: "hidden",
+        margin: 0,
       }}
     >
 

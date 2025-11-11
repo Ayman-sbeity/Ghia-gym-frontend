@@ -64,9 +64,11 @@ const TestimonialsSection: React.FC = () => {
     <Box
       component="section"
       sx={{
+        width: "100%",
         py: { xs: 6, md: 8 },
         px: { xs: 2, md: 4 },
         backgroundColor: "#f8f9fa",
+        margin: 0,
       }}
     >
       <Box sx={{ textAlign: "center", mb: { xs: 4, md: 6 } }}>

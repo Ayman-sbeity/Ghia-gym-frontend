@@ -6,15 +6,15 @@ const ArtisticCarousel: React.FC = () => {
     <Box
       sx={{
         position: "relative",
-        width: "100%",
+
         height: { xs: "500px", sm: "600px", md: "700px" },
         overflow: "hidden",
       }}
     >
       <Box
         component="img"
-        src="blue.jpg"
-        alt="Handcrafted organic products"
+        src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=2000&q=80"
+        alt="Modern gym with state-of-the-art equipment"
         sx={{
           width: "100%",
           height: "100%",
@@ -32,7 +32,7 @@ const ArtisticCarousel: React.FC = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.2)",
+          backgroundColor: "rgba(0, 0, 0, 0.4)",
         }}
       />
 
@@ -52,14 +52,15 @@ const ArtisticCarousel: React.FC = () => {
           variant="body2"
           sx={{
             fontSize: { xs: "0.9rem", sm: "1rem" },
-            fontWeight: 400,
+            fontWeight: 600,
             letterSpacing: "0.2em",
             textTransform: "uppercase",
             mb: 2,
-            opacity: 0.9,
+            opacity: 0.95,
+            color: "#FFD700",
           }}
         >
-          HANDCRAFTED ORGANIC PRODUCTS
+          TRANSFORM YOUR BODY & MIND
         </Typography>
 
         <Typography
@@ -72,30 +73,32 @@ const ArtisticCarousel: React.FC = () => {
             fontFamily: "'Arial', sans-serif",
           }}
         >
-          JUST LIKE NATURE
+          UNLEASH YOUR
           <br />
-          INTENDED
+          POTENTIAL
         </Typography>
 
         <Button
           variant="contained"
           sx={{
-            backgroundColor: "rgba(110, 120, 100, 0.9)",
+            backgroundColor: "#FF6B35",
             color: "white",
             px: 4,
             py: 1.5,
             fontSize: "1rem",
-            fontWeight: 500,
-            textTransform: "none",
-            borderRadius: 0,
-            boxShadow: "none",
+            fontWeight: 600,
+            textTransform: "uppercase",
+            borderRadius: 1,
+            boxShadow: "0 4px 12px rgba(255,107,53,0.4)",
             "&:hover": {
-              backgroundColor: "rgba(90, 100, 80, 0.95)",
-              boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+              backgroundColor: "#E65A2E",
+              boxShadow: "0 6px 16px rgba(255,107,53,0.6)",
+              transform: "translateY(-2px)",
+              transition: "all 0.3s ease",
             },
           }}
         >
-          Shop Now
+          Start Your Journey
         </Button>
       </Box>
 

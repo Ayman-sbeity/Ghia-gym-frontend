@@ -46,7 +46,8 @@ const NewArrivalsSection: React.FC = () => {
         overflow: "hidden",
         bgcolor: "transparent",
         py: { xs: 2, md: 3 },
-        
+        margin: 0,
+        padding: 0,
       }}
     >
       <Box
@@ -88,7 +89,7 @@ const NewArrivalsSection: React.FC = () => {
                     textTransform: "uppercase",
                   }}
                 >
-                  Shop New Arrivals
+                  🔥 Limited Time Offer: Join Today & Save
                 </Typography>
                 <Typography
                   sx={{

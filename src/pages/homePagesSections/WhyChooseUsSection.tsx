@@ -57,15 +57,14 @@ const features = [
 
 const WhyChooseUsSection: React.FC = () => {
   return (
-     <Box
+    <Box
       component="section"
       sx={{
+        width: "100%",
         py: { xs: 6, md: 8 },
         px: { xs: 2, md: 4 },
         backgroundColor: "#f8f9fa",
-        width: "100%",
-        maxWidth: { xs: "100%", sm: "95%", md: "1000px" }, // Responsive maxWidth
-        mx: "auto",
+        margin: 0,
       }}
     >
       <Box

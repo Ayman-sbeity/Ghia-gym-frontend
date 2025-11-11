@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { CssBaseline } from "@mui/material";
 import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
 import CartPage from "./pages/CartPage";
@@ -24,6 +25,7 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
+        <CssBaseline />
         <Router>
         <Routes>
 

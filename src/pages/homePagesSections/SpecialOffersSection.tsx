@@ -10,41 +10,41 @@ import { useNavigate } from "react-router-dom";
 import {
   LocalOffer,
   Star,
-  Percent,
+  FitnessCenter,
 } from "@mui/icons-material";
 
 const offers = [
   {
     id: 1,
-    title: "Free Shipping",
-    subtitle: "On Orders Over $50",
-    description: "Get free standard shipping on all orders above $50. No minimum quantity required.",
+    title: "Basic Membership",
+    subtitle: "$29/month",
+    description: "Perfect for beginners. Access to gym equipment, locker rooms, and basic cardio area. Ideal for those starting their fitness journey.",
     icon: <LocalOffer sx={{ fontSize: 40 }} />,
     color: "#4CAF50",
     backgroundColor: "#E8F5E8",
-    action: "Shop Now",
-    highlight: "Limited Time",
+    action: "Get Started",
+    highlight: "Best for Beginners",
   },
   {
     id: 2,
-    title: "First Order Discount",
-    subtitle: "20% Off Your First Purchase",
-    description: "New customers get 20% off their first order. Use code WELCOME20 at checkout.",
+    title: "Premium Membership",
+    subtitle: "$59/month",
+    description: "Our most popular plan. Full gym access, unlimited group classes, personal trainer consultation, and guest privileges.",
     icon: <Star sx={{ fontSize: 40 }} />,
     color: "#FF9800",
     backgroundColor: "#FFF3E0",
-    action: "Claim Offer",
-    highlight: "New Customers",
+    action: "Join Premium",
+    highlight: "Most Popular",
   },
   {
     id: 3,
-    title: "Bulk Savings",
-    subtitle: "Buy More, Save More",
-    description: "Get increasing discounts when you buy multiple items. Up to 30% off on bulk orders.",
-    icon: <Percent sx={{ fontSize: 40 }} />,
+    title: "Elite Membership",
+    subtitle: "$99/month",
+    description: "Ultimate fitness experience. Everything in Premium plus 4 personal training sessions/month, nutrition planning, and spa access.",
+    icon: <FitnessCenter sx={{ fontSize: 40 }} />,
     color: "#2196F3",
     backgroundColor: "#E3F2FD",
-    action: "View Details",
+    action: "Go Elite",
     highlight: "Best Value",
   },
 
@@ -56,21 +56,12 @@ const SpecialOffersSection: React.FC = () => {
   const handleOfferClick = (offerId: number) => {
     switch (offerId) {
       case 1:
-      case 3:
-      case 5:
-        navigate("/products");
-        break;
       case 2:
-        navigate("/signup");
-        break;
-      case 4:
-        navigate("/products");
-        break;
-      case 6:
+      case 3:
         navigate("/signup");
         break;
       default:
-        navigate("/products");
+        navigate("/signup");
     }
   };
 
@@ -78,8 +69,10 @@ const SpecialOffersSection: React.FC = () => {
     <Box
       component="section"
       sx={{
+        width: "100%",
         py: { xs: 6, md: 8 },
         px: { xs: 2, md: 4 },
+        margin: 0,
       }}
     >
       <Box sx={{ textAlign: "center", mb: { xs: 4, md: 6 } }}>
@@ -92,7 +85,7 @@ const SpecialOffersSection: React.FC = () => {
             color: "text.primary",
           }}
         >
-          Special Offers
+          Membership Plans
         </Typography>
         <Typography
           variant="subtitle1"
@@ -103,7 +96,7 @@ const SpecialOffersSection: React.FC = () => {
             mx: "auto",
           }}
         >
-          Don't miss out on these amazing deals and exclusive offers just for you
+          Choose the perfect plan to achieve your fitness goals. All memberships include 24/7 gym access.
         </Typography>
       </Box>
 
