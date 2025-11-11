@@ -56,7 +56,7 @@ const HeroSection = styled(Box)(({ theme }) => ({
   },
   "& .hero-subtitle": {
     fontSize: "1.2rem",
-    color: COLORS.FOOTER_TEXT,
+    color: "#EAEAEA",
     maxWidth: "700px",
     margin: "0 auto",
     lineHeight: 1.8,
@@ -70,7 +70,7 @@ const ContactInfoCard = styled(Paper)(({ theme }) => ({
   background: `linear-gradient(135deg, ${COLORS.PURPLE_PRIMARY}15 0%, ${COLORS.PURPLE_DEEP}10 100%)`,
   backdropFilter: "blur(10px)",
   borderRadius: theme.spacing(2),
-  border: `1px solid ${COLORS.PURPLE_PRIMARY}30`,
+  border: `1px solid ${COLORS.PURPLE_PRIMARY}90`,
   transition: "all 0.3s ease",
   cursor: "pointer",
   "&:hover": {
@@ -132,12 +132,12 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
       },
     },
     "& input, & textarea": {
-      color: COLORS.LOGO_DEEP,
+      color: "#8b3a8b",
       fontSize: "1rem",
     },
   },
   "& .MuiInputLabel-root": {
-    color: COLORS.LOGO_DEEP,
+    color: "#8b3a8b",
     fontWeight: 600,
     "&.Mui-focused": {
       color: COLORS.PURPLE_PRIMARY,
@@ -300,7 +300,7 @@ const ContactPage: React.FC = () => {
                     variant="h5"
                     fontWeight="bold"
                     mb={2}
-                    sx={{ color: COLORS.LOGO_DEEP }}
+                    sx={{ color: "#EAEAEA" }}
                   >
                     {info.title}
                   </Typography>
@@ -309,7 +309,7 @@ const ContactPage: React.FC = () => {
                       key={idx}
                       variant="body1"
                       sx={{
-                        color: COLORS.FOOTER_TEXT,
+                        color: "#EAEAEA",
                         mb: 0.5,
                         lineHeight: 1.8,
                       }}
@@ -331,11 +331,11 @@ const ContactPage: React.FC = () => {
                 variant="h4"
                 fontWeight="bold"
                 mb={1}
-                sx={{ color: COLORS.LOGO_DEEP }}
+                sx={{ color: "#8b3a8b" }}
               >
                 Send Us a Message
               </Typography>
-              <Typography variant="body1" sx={{ color: COLORS.FOOTER_TEXT }}>
+              <Typography variant="body1" sx={{ color: "#8b3a8b" }}>
                 Fill out the form below and we'll get back to you within 24
                 hours
               </Typography>
@@ -462,13 +462,13 @@ const ContactPage: React.FC = () => {
             variant="h5"
             fontWeight="bold"
             mb={2}
-            sx={{ color: COLORS.LOGO_DEEP }}
+            sx={{ color: "#EAEAEA" }}
           >
             Prefer to talk in person?
           </Typography>
           <Typography
             variant="body1"
-            sx={{ color: COLORS.FOOTER_TEXT, maxWidth: "600px", mx: "auto" }}
+            sx={{ color: "#EAEAEA", maxWidth: "600px", mx: "auto" }}
           >
             Visit our gym during business hours or schedule a tour. We're here
             to help you achieve your fitness goals!
