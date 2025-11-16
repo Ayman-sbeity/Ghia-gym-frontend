@@ -14,6 +14,7 @@ import {
   Alert,
 } from "@mui/material";
 import { AddShoppingCart, Add, Remove } from "@mui/icons-material";
+import { COLORS } from "../../assets/themeColors";
 import { useState } from "react";
 import CustomLabel from "../../components/common/CustomLabel";
 import { useCartManagement } from "../../hooks/useCartManagement";
@@ -24,13 +25,13 @@ const StyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   transition: "all 0.3s ease",
-  border: "1px solid #eee",
+  border: `1px solid ${COLORS.FOOTER_DIVIDER}`,
   borderRadius: theme.spacing(2),
   overflow: "hidden",
-  "&:hover": {
-    transform: "translateY(-5px)",
-    boxShadow: theme.shadows[4],
-  },
+    "&:hover": {
+      transform: "translateY(-5px)",
+      boxShadow: `0 10px 30px ${COLORS.PURPLE_PRIMARY}25`,
+    },
 }));
 
 const ProductImage = styled(Box)({
@@ -40,8 +41,8 @@ const ProductImage = styled(Box)({
   backgroundColor: "#f5f5f5",
 });
 
-const StyledChip = styled(Chip)(({ theme }) => ({
-  backgroundColor: theme.palette.grey[100],
+const StyledChip = styled(Chip)(() => ({
+  backgroundColor: COLORS.GYM_BG,
   fontSize: "0.75rem",
   height: 24,
   borderRadius: 12,
@@ -167,9 +168,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <CardContent sx={{ flexGrow: 1, p: 2 }}>
           <Stack spacing={2}>
             <Stack direction="row" spacing={1} flexWrap="wrap" gap={1}>
-              <StyledChip label={product.category} size="small" />
+              <StyledChip label={product.category} size="small" sx={{ color: 'white', background: COLORS.PURPLE_PRIMARY }} />
               {product.brand && (
-                <StyledChip label={product.brand} size="small" />
+                <StyledChip label={product.brand} size="small" sx={{ color: 'white', background: COLORS.GYM_ACCENT }} />
               )}
             </Stack>
 
@@ -215,6 +216,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 fontWeight="bold"
                 sx={{ fontSize: "1.125rem" }}
               />
+              
+              <Typography variant="caption" sx={{ color: COLORS.FOOTER_LINK, ml: 1 }}>
+                incl. VAT
+              </Typography>
+              
+              
               <Typography variant="body2" color="text.secondary">
                 Stock: {product.stock}
               </Typography>
@@ -251,6 +258,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
                   borderRadius: 2,
                   textTransform: 'none',
                   fontWeight: 600,
+                  background: COLORS.GRADIENT_CTA,
+                  boxShadow: `0 10px 30px ${COLORS.PURPLE_PRIMARY}20`,
                 }}
               >
                 {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}

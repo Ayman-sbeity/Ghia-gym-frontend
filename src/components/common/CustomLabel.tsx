@@ -1,4 +1,5 @@
 import React from "react";
+import { COLORS } from '../../assets/themeColors';
 import {
   Typography,
   Box,
@@ -20,7 +21,7 @@ const CustomLabel: React.FC<CustomLabelProps> = ({
   text,
   fontWeight,
   fontSize,
-  color,
+  color = COLORS.typographyColor,
   highlightLabelStar = false,
   variant = "body1",
   sx,
