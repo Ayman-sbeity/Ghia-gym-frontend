@@ -28,7 +28,6 @@ const FeaturedProductsSection: React.FC = () => {
     navigate("/products");
   };
 
-  // Motion variants: container for stagger & item for fade-up with spring for a pro look
   const containerVariants = {
     hidden: { opacity: 0, y: 18 },
     visible: {
@@ -237,7 +236,6 @@ const FeaturedProductsSection: React.FC = () => {
                 "&:hover": {
                   boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
                   transform: "translateY(-2px)",
-                  // keep hover consistent with logo colors
                   backgroundImage: `linear-gradient(90deg, ${COLORS.PURPLE_DEEP} 0%, ${COLORS.PURPLE_PRIMARY} 100%)`,
                 },
               }}

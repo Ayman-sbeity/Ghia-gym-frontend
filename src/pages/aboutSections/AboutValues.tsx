@@ -45,7 +45,8 @@ const AboutValues: React.FC = () => (
         >
           We empower members to reach lasting health and performance through
           expert coaching, an inclusive community, and training grounded in
-          evidence — so fitness becomes a sustainable, rewarding part of life.
+            evidence — and by partnering with experienced personal trainers so
+            fitness becomes a sustainable, rewarding part of life.
         </Typography>
       </Box>
 

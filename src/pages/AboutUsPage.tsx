@@ -50,6 +50,12 @@ const AboutUsPage: React.FC = () => {
             Meet Our Team
           </Typography>
           <TrainerProfilesSection showTitle={false} />
+          <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.75)", mt: 2 }}>
+            Note: Some trainers listed here operate as independent personal
+            trainers. They partner with Ghia Gym to offer private coaching and
+            booking may be handled directly through their profile. Use the
+            Contact Trainer button on their card for details.
+          </Typography>
         </Box>
 
         <AboutTestimonials />

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { API_BASE_URL } from "../services/api";
 import {
   Box,
@@ -169,11 +170,17 @@ const SubmitButton = styled(Button)(({ theme }) => ({
 }));
 
 const ContactPage: React.FC = () => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const trainerFromQuery = params.get("trainer");
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phoneNumber: "",
-    message: "",
+    message: trainerFromQuery
+      ? `Hi — I'd like to contact ${trainerFromQuery} about personal training sessions.`
+      : "",
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);

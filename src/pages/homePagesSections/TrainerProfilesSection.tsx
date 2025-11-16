@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import { motion } from "framer-motion";
+import Chip from "@mui/material/Chip";
 
 const trainers = [
   {
@@ -26,6 +27,7 @@ const trainers = [
     title: "Nutrition Coach",
     bio: "Guides meal planning and healthy lifestyle choices to support gym results.",
     initials: "AK",
+    isPersonalTrainer: true,
   },
 ];
 
@@ -63,13 +65,7 @@ const TrainerProfilesSection: React.FC<TrainerProfilesSectionProps> = ({
               {title}
             </Typography>
           )}
-          <Typography
-            variant="body1"
-            sx={{ color: "rgba(255,255,255,0.8)", mb: 4 }}
-          >
-            Our certified team will create a program that fits your needs and
-            helps you progress safely.
-          </Typography>
+          
           <Typography
             variant="body1"
             sx={{ color: "rgba(255,255,255,0.8)", mb: 4 }}
@@ -125,6 +121,18 @@ const TrainerProfilesSection: React.FC<TrainerProfilesSectionProps> = ({
                 <Typography sx={{ color: COLORS.PURPLE_ACCENT, mb: 1 }}>
                   {t.title}
                 </Typography>
+                {t.isPersonalTrainer && (
+                  <Chip
+                    label="Personal Trainer"
+                    size="small"
+                    sx={{
+                      mt: 0.5,
+                      bgcolor: COLORS.GYM_ACCENT,
+                      color: "black",
+                      fontWeight: 700,
+                    }}
+                  />
+                )}
                 <Typography
                   variant="body2"
                   sx={{ color: "rgba(255,255,255,0.7)", mb: 3 }}
@@ -151,13 +159,13 @@ const TrainerProfilesSection: React.FC<TrainerProfilesSectionProps> = ({
                     }}
                     onClick={() =>
                       navigate(
-                        `/book?trainer=${encodeURIComponent(
-                          t.name
-                        )}&online=true`
+                        t.isPersonalTrainer
+                          ? `/contact?trainer=${encodeURIComponent(t.name)}`
+                          : `/book?trainer=${encodeURIComponent(t.name)}&online=true`
                       )
                     }
                   >
-                    Book Session
+                    {t.isPersonalTrainer ? 'Contact Trainer' : 'Book Session'}
                   </Button>
                 </Stack>
               </Box>
