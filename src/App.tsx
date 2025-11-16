@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
 import CartPage from "./pages/CartPage";
 import ContactPage from "./pages/ContactPage";
+import AboutUsPage from "./pages/AboutUsPage";
 import MainLayout from "./components/layout/MainLayout";
 import CheckoutPage from "./pages/CheckoutPage";
 import BookingPage from "./pages/BookingPage";
@@ -28,39 +29,45 @@ function App() {
       <CartProvider>
         <CssBaseline />
         <Router>
-        <Routes>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
 
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+            <Route
+              path="/dash"
+              element={
+                <AdminRoute>
+                  <Layout />
+                </AdminRoute>
+              }
+            >
+              <Route index element={<Dashboard />} />
+              <Route path="add-item" element={<AddItem />} />
+              <Route path="edit-item/:id" element={<EditItem />} />
+              <Route path="products" element={<ProductsManagement />} />
+              <Route path="users" element={<Users />} />
+              <Route path="contacts" element={<Contacts />} />
+              <Route path="orders" element={<Orders />} />
+            </Route>
 
-          <Route path="/dash" element={
-            <AdminRoute>
-              <Layout />
-            </AdminRoute>
-          }>
-            <Route index element={<Dashboard />} />
-            <Route path="add-item" element={<AddItem />} />
-            <Route path="edit-item/:id" element={<EditItem />} />
-            <Route path="products" element={<ProductsManagement />} />
-            <Route path="users" element={<Users />} />
-            <Route path="contacts" element={<Contacts />} />
-            <Route path="orders" element={<Orders />} />
-          </Route>
-
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="products" element={<ProductsPage />} />
-            <Route path="contact" element={<ContactPage />} />
-            <Route path="book" element={<BookingPage />} />
-            <Route path="cart" element={<CartPage />} />
-            <Route path="checkout" element={
-              <ProtectedRoute>
-                <CheckoutPage />
-              </ProtectedRoute>
-            } />
-          </Route>
-        </Routes>
-      </Router>
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path="products" element={<ProductsPage />} />
+              <Route path="contact" element={<ContactPage />} />
+              <Route path="about" element={<AboutUsPage />} />
+              <Route path="book" element={<BookingPage />} />
+              <Route path="cart" element={<CartPage />} />
+              <Route
+                path="checkout"
+                element={
+                  <ProtectedRoute>
+                    <CheckoutPage />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+          </Routes>
+        </Router>
       </CartProvider>
     </AuthProvider>
   );

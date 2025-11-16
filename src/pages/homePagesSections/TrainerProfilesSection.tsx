@@ -29,7 +29,15 @@ const trainers = [
   },
 ];
 
-const TrainerProfilesSection: React.FC = () => {
+interface TrainerProfilesSectionProps {
+  title?: string;
+  showTitle?: boolean;
+}
+
+const TrainerProfilesSection: React.FC<TrainerProfilesSectionProps> = ({
+  title = "Meet Our Trainers",
+  showTitle = true,
+}) => {
   const navigate = useNavigate();
   return (
     <Box
@@ -47,15 +55,27 @@ const TrainerProfilesSection: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
+          {showTitle && (
+            <Typography
+              variant="h4"
+              sx={{ color: "white", fontWeight: 800, mb: 2 }}
+            >
+              {title}
+            </Typography>
+          )}
           <Typography
-            variant="h4"
-            sx={{ color: "white", fontWeight: 800, mb: 2 }}
+            variant="body1"
+            sx={{ color: "rgba(255,255,255,0.8)", mb: 4 }}
           >
-            Meet Our Trainers
+            Our certified team will create a program that fits your needs and
+            helps you progress safely.
           </Typography>
-          <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.8)", mb: 4 }}>
-            Our certified team will create a program that fits your needs and helps
-            you progress safely.
+          <Typography
+            variant="body1"
+            sx={{ color: "rgba(255,255,255,0.8)", mb: 4 }}
+          >
+            Our certified team will create a program that fits your needs and
+            helps you progress safely.
           </Typography>
         </motion.div>
 
@@ -105,7 +125,10 @@ const TrainerProfilesSection: React.FC = () => {
                 <Typography sx={{ color: COLORS.PURPLE_ACCENT, mb: 1 }}>
                   {t.title}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)", mb: 3 }}>
+                <Typography
+                  variant="body2"
+                  sx={{ color: "rgba(255,255,255,0.7)", mb: 3 }}
+                >
                   {t.bio}
                 </Typography>
                 <Stack direction="row" spacing={2}>
@@ -126,7 +149,13 @@ const TrainerProfilesSection: React.FC = () => {
                       background: COLORS.GRADIENT_CTA,
                       color: "white",
                     }}
-                    onClick={() => navigate(`/book?trainer=${encodeURIComponent(t.name)}&online=true`)}
+                    onClick={() =>
+                      navigate(
+                        `/book?trainer=${encodeURIComponent(
+                          t.name
+                        )}&online=true`
+                      )
+                    }
                   >
                     Book Session
                   </Button>

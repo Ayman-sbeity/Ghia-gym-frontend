@@ -50,10 +50,9 @@ const AboutUsSection: React.FC = () => {
         background: "transparent",
         margin: 0,
         padding: 0,
-              mb:10,
+        mb: 10,
       }}
     >
-      {/* Animated Background Elements */}
       <Box
         sx={{
           position: "absolute",
@@ -86,7 +85,6 @@ const AboutUsSection: React.FC = () => {
       />
 
       <Box sx={{ maxWidth: "1400px", mx: "auto", px: { xs: 3, md: 6 } }}>
-        {/* Section Header */}
         <Box sx={{ textAlign: "center", mb: { xs: 6, md: 10 } }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -105,7 +103,7 @@ const AboutUsSection: React.FC = () => {
                 display: "block",
               }}
             >
-              ABOUT GHIA GYM
+              GHIA
             </Typography>
             <Typography
               variant="h2"
@@ -293,7 +291,6 @@ const AboutUsSection: React.FC = () => {
           ))}
         </Box>
 
-        {/* CTA Section */}
         <Box sx={{ textAlign: "center" }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

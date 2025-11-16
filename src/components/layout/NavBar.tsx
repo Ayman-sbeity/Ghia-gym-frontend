@@ -21,7 +21,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import { useIsAdmin } from "../../hooks/useRole";
 import { COLORS as THEME_COLORS } from "../../assets/themeColors";
-import { alpha } from '@mui/material/styles';
+import { alpha } from "@mui/material/styles";
 
 // Types
 interface NavLink {
@@ -62,12 +62,15 @@ const Logo: React.FC<LogoProps> = ({ onClick }) => (
       alignItems: "center",
       transition: "all 0.4s ease",
       position: "relative",
-      '&:focus': {
-        outline: 'none',
+      "&:focus": {
+        outline: "none",
       },
       "&:hover": {
         transform: "scale(1.08) rotate(2deg)",
-  filter: `drop-shadow(0 0 12px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.6)})`,
+        filter: `drop-shadow(0 0 12px ${alpha(
+          THEME_COLORS.LOGO_MAGENTA,
+          0.6
+        )})`,
       },
       "&::before": {
         content: '""',
@@ -77,7 +80,10 @@ const Logo: React.FC<LogoProps> = ({ onClick }) => (
         right: 0,
         bottom: 0,
         borderRadius: "50%",
-  background: `radial-gradient(circle, ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.2)} 0%, transparent 70%)`,
+        background: `radial-gradient(circle, ${alpha(
+          THEME_COLORS.LOGO_MAGENTA,
+          0.2
+        )} 0%, transparent 70%)`,
         opacity: 0,
         transition: "opacity 0.4s ease",
         zIndex: -1,
@@ -124,12 +130,15 @@ const Logo: React.FC<LogoProps> = ({ onClick }) => (
           "&:hover": {
             transform: "scale(1.06) rotate(2deg)",
           },
-          filter: `drop-shadow(0 4px 18px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.35)})`,
+          filter: `drop-shadow(0 4px 18px ${alpha(
+            THEME_COLORS.LOGO_MAGENTA,
+            0.35
+          )})`,
         }}
         onError={(e) => {
           const t = e.currentTarget as HTMLImageElement;
-          if (t.src && !t.src.endsWith('/GhiaLogo.jpg')) {
-            t.src = '/GhiaLogo.jpg';
+          if (t.src && !t.src.endsWith("/GhiaLogo.jpg")) {
+            t.src = "/GhiaLogo.jpg";
           }
         }}
       />
@@ -179,7 +188,10 @@ const NavButton: React.FC<NavButtonProps> = ({ label, onClick }) => (
         left: "-100%",
         width: "100%",
         height: "100%",
-  background: `linear-gradient(90deg, transparent, ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.3)}, transparent)`,
+        background: `linear-gradient(90deg, transparent, ${alpha(
+          THEME_COLORS.LOGO_MAGENTA,
+          0.3
+        )}, transparent)`,
         transition: "left 0.5s ease",
       },
       "&:hover::before": {
@@ -189,7 +201,7 @@ const NavButton: React.FC<NavButtonProps> = ({ label, onClick }) => (
         backgroundColor: NAV_COLORS.hoverBackground,
         color: NAV_COLORS.textHover,
         transform: "translateY(-2px)",
-  boxShadow: `0 4px 12px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.3)}`,
+        boxShadow: `0 4px 12px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.3)}`,
       },
       // remove default browser/MUI focus outline while still keeping focus for accessibility
       "&:focus": {
@@ -214,7 +226,7 @@ const NavButton: React.FC<NavButtonProps> = ({ label, onClick }) => (
         height: "2px",
         background: "linear-gradient(90deg, #8b3a8b, #c850c0, #ffcc70)",
         transition: "width 0.3s ease",
-  boxShadow: `0 0 8px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.6)}`,
+        boxShadow: `0 0 8px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.6)}`,
       },
       "&:hover::after": {
         width: "80%",
@@ -266,7 +278,8 @@ const CartBadge: React.FC<CartBadgeProps> = ({ itemCount, onClick }) => (
         width: "100%",
         height: "100%",
         borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(200, 80, 192, 0.3) 0%, transparent 70%)",
+        background:
+          "radial-gradient(circle, rgba(200, 80, 192, 0.3) 0%, transparent 70%)",
         opacity: 0,
         transition: "opacity 0.3s ease",
       },
@@ -280,15 +293,16 @@ const CartBadge: React.FC<CartBadgeProps> = ({ itemCount, onClick }) => (
       },
     }}
   >
-    <Badge 
-      badgeContent={itemCount} 
+    <Badge
+      badgeContent={itemCount}
       sx={{
         "& .MuiBadge-badge": {
           backgroundColor: NAV_COLORS.cartBadge,
           color: "white",
           fontWeight: 600,
-            boxShadow: `0 0 10px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.6)}`,
-          animation: itemCount > 0 ? "badgePulse 2s ease-in-out infinite" : "none",
+          boxShadow: `0 0 10px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.6)}`,
+          animation:
+            itemCount > 0 ? "badgePulse 2s ease-in-out infinite" : "none",
           "@keyframes badgePulse": {
             "0%, 100%": {
               transform: "scale(1)",
@@ -299,7 +313,7 @@ const CartBadge: React.FC<CartBadgeProps> = ({ itemCount, onClick }) => (
               boxShadow: `0 0 15px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.9)}`,
             },
           },
-        }
+        },
       }}
     >
       <ShoppingCartIcon sx={{ fontSize: "1.5rem" }} />
@@ -323,10 +337,10 @@ const UserMenu: React.FC<UserMenuProps> = ({
   onLogout,
 }) => (
   <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-    <Typography 
-      variant="body2" 
-      sx={{ 
-        color: NAV_COLORS.text, 
+    <Typography
+      variant="body2"
+      sx={{
+        color: NAV_COLORS.text,
         fontWeight: 600,
         display: { xs: "none", sm: "block" },
         transition: "all 0.3s ease",
@@ -360,7 +374,10 @@ const UserMenu: React.FC<UserMenuProps> = ({
           width: "100%",
           height: "100%",
           borderRadius: "50%",
-          background: `radial-gradient(circle, ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.3)} 0%, transparent 70%)`,
+          background: `radial-gradient(circle, ${alpha(
+            THEME_COLORS.LOGO_MAGENTA,
+            0.3
+          )} 0%, transparent 70%)`,
           opacity: 0,
           transition: "opacity 0.3s ease",
         },
@@ -408,11 +425,11 @@ const UserMenu: React.FC<UserMenuProps> = ({
         },
       }}
     >
-      <MenuItem 
-        onClick={onLogout} 
+      <MenuItem
+        onClick={onLogout}
         disableRipple
-        sx={{ 
-          px: 3, 
+        sx={{
+          px: 3,
           py: 1.5,
           fontWeight: 500,
           transition: "all 0.3s ease",
@@ -474,7 +491,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
       "& .MuiPaper-root": {
         bgcolor: NAV_COLORS.backgroundSolid,
         color: NAV_COLORS.text,
-  boxShadow: `0 4px 20px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.3)}`,
+        boxShadow: `0 4px 20px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.3)}`,
         border: `1px solid ${NAV_COLORS.border}`,
         borderRadius: 2,
         mt: 1,
@@ -484,12 +501,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     }}
   >
     <Box sx={{ display: "flex", justifyContent: "flex-end", px: 1 }}>
-            <IconButton 
-        aria-label="Close menu" 
-        onClick={onClose} 
+      <IconButton
+        aria-label="Close menu"
+        onClick={onClose}
         size="large"
-              disableRipple
-              disableFocusRipple
+        disableRipple
+        disableFocusRipple
         sx={{
           color: NAV_COLORS.text,
           transition: "all 0.3s ease",
@@ -655,13 +672,15 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   </Menu>
 );
 
-// Main Component
 const NavBar: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const [mobileMenuAnchorEl, setMobileMenuAnchorEl] = useState<null | HTMLElement>(null);
-  const [userMenuAnchorEl, setUserMenuAnchorEl] = useState<null | HTMLElement>(null);
-  
+  const [mobileMenuAnchorEl, setMobileMenuAnchorEl] =
+    useState<null | HTMLElement>(null);
+  const [userMenuAnchorEl, setUserMenuAnchorEl] = useState<null | HTMLElement>(
+    null
+  );
+
   const navigate = useNavigate();
   const { user, logout, isAuthenticated } = useAuth();
   const { getCartItemsCount } = useCart();
@@ -670,6 +689,7 @@ const NavBar: React.FC = () => {
   // Navigation configuration
   const mainNavLinks: NavLink[] = [
     { label: "Home", path: "/" },
+    { label: "About", path: "/about" },
     { label: "Products", path: "/products" },
     { label: "Contact", path: "/contact" },
   ];
@@ -724,7 +744,7 @@ const NavBar: React.FC = () => {
         height: NAVBAR_HEIGHT,
         background: NAV_COLORS.background,
         borderBottom: `1px solid ${NAV_COLORS.border}`,
-  boxShadow: `0 4px 20px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.2)}`,
+        boxShadow: `0 4px 20px ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.2)}`,
         zIndex: theme.zIndex.appBar,
         backdropFilter: "blur(10px)",
         "&::before": {
@@ -734,7 +754,10 @@ const NavBar: React.FC = () => {
           left: "-100%",
           width: "100%",
           height: "100%",
-          background: `linear-gradient(90deg, transparent, ${alpha(THEME_COLORS.LOGO_MAGENTA, 0.1)}, transparent)`,
+          background: `linear-gradient(90deg, transparent, ${alpha(
+            THEME_COLORS.LOGO_MAGENTA,
+            0.1
+          )}, transparent)`,
           animation: "shimmer 3s ease-in-out infinite",
         },
         "@keyframes shimmer": {
