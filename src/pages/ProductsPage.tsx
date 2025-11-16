@@ -1,9 +1,17 @@
 import Box from "@mui/material/Box";
 import ProductCard from "./productsPageSections/ProductCard";
 import ProductFilters from "./productsPageSections/ProductFilters";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import CustomLabel from "../components/common/CustomLabel";
-import { Drawer, IconButton, Alert, Button, Skeleton, CircularProgress } from "@mui/material";
+import { COLORS } from "../assets/themeColors";
+import {
+  Drawer,
+  IconButton,
+  Alert,
+  Button,
+  Skeleton,
+  CircularProgress,
+} from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import CloseIcon from "@mui/icons-material/Close";
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -42,11 +50,9 @@ export default function ProductsPage() {
     (signal) => fetchItems(fetchOptions, { signal }),
     5 * 60 * 1000
   );
-  const { data: allProducts } = useCachedData<Item[]>(
-    "all-items",
-    (signal) => fetchItems({}, { signal }),
-    5 * 60 * 1000
-  );
+  const { data: allProducts, loading: allProductsLoading } = useCachedData<
+    Item[]
+  >("all-items", (signal) => fetchItems({}, { signal }), 5 * 60 * 1000);
 
   const handleFilterChange = (filterType: string, value: string) => {
     setSelectedFilters((prev) => ({
@@ -67,13 +73,13 @@ export default function ProductsPage() {
     const source = fetchedProducts ?? allProducts;
     if (!source) return [];
 
-  let filtered = source.filter((product: Item) => {
+    let filtered = source.filter((product: Item) => {
       const price = product.price;
       const matchesCategory = selectedFilters.category
         ? product.category === selectedFilters.category
         : true;
       return (
-    price >= priceRange.min &&
+        price >= priceRange.min &&
         price <= priceRange.max &&
         product.isActive !== false &&
         matchesCategory
@@ -88,11 +94,30 @@ export default function ProductsPage() {
 
     return filtered;
   }, [fetchedProducts, allProducts, selectedFilters, priceRange]);
-  
-  // Show skeleton only when we don't have any cached data to show
-  const showFullPageSkeleton = loading && !allProducts;
 
-  if (showFullPageSkeleton) {
+  const showFullPageSkeleton =
+    (loading || allProductsLoading) &&
+    fetchedProducts == null &&
+    allProducts == null;
+
+  const [skipSkeletonAfterDelay, setSkipSkeletonAfterDelay] = useState(false);
+
+  useEffect(() => {
+    if (!showFullPageSkeleton) {
+      setSkipSkeletonAfterDelay(false);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setSkipSkeletonAfterDelay(true);
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, [showFullPageSkeleton]);
+
+  const shouldRenderSkeleton = showFullPageSkeleton && !skipSkeletonAfterDelay;
+
+  if (shouldRenderSkeleton) {
     return (
       <Box
         sx={{
@@ -119,20 +144,47 @@ export default function ProductsPage() {
           }}
         >
           <Box sx={{ p: 2 }}>
-            <Skeleton variant="text" height={32} width="80%" sx={{ mb: 2, backgroundColor: 'rgba(192,132,252,0.5)' }} />
+            <Skeleton
+              variant="text"
+              height={32}
+              width="80%"
+              sx={{ mb: 2, backgroundColor: COLORS.PURPLE_ACCENT + "80" }}
+            />
             <Skeleton variant="text" height={20} width="60%" sx={{ mb: 1 }} />
-            <Skeleton variant="rectangular" height={120} sx={{ mb: 3, backgroundColor: 'rgba(192,132,252,0.5)' }} />
+            <Skeleton
+              variant="rectangular"
+              height={120}
+              sx={{ mb: 3, backgroundColor: COLORS.PURPLE_ACCENT + "80" }}
+            />
             <Skeleton variant="text" height={20} width="70%" sx={{ mb: 1 }} />
-            <Skeleton variant="rectangular" height={120} sx={{ mb: 3, backgroundColor: 'rgba(192,132,252,0.5)' }} />
+            <Skeleton
+              variant="rectangular"
+              height={120}
+              sx={{ mb: 3, backgroundColor: COLORS.PURPLE_ACCENT + "80" }}
+            />
             <Skeleton variant="text" height={20} width="65%" sx={{ mb: 1 }} />
-            <Skeleton variant="rectangular" height={120} sx={{ backgroundColor: 'rgba(192,132,252,0.5)' }} />
+            <Skeleton
+              variant="rectangular"
+              height={120}
+              sx={{ backgroundColor: COLORS.PURPLE_ACCENT + "80" }}
+            />
           </Box>
         </Box>
 
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Box sx={{ mb: 3 }}>
-            <Skeleton variant="text" height={40} width="30%" sx={{ mb: 2, backgroundColor: 'rgba(192,132,252,0.5)' }} />
-            <Skeleton variant="text" height={24} width="20%" sx={{ backgroundColor: 'rgba(192,132,252,0.5)' }} />
+            <Skeleton
+              variant="text"
+              height={40}
+              width="30%"
+              sx={{ mb: 2, backgroundColor: COLORS.PURPLE_ACCENT + "80" }}
+            />
+            <Skeleton
+              variant="text"
+              height={24}
+              width="20%"
+              sx={{ backgroundColor: COLORS.PURPLE_ACCENT + "80" }}
+            />
           </Box>
           <Box
             sx={{
@@ -146,21 +198,30 @@ export default function ProductsPage() {
                 <Skeleton
                   variant="rectangular"
                   height={200}
-                  sx={{ mb: 1, borderRadius: 1, backgroundColor: 'rgba(192,132,252,0.5)' }}
+                  sx={{
+                    mb: 1,
+                    borderRadius: 1,
+                    backgroundColor: COLORS.PURPLE_ACCENT + "80",
+                  }}
                 />
                 <Skeleton
                   variant="text"
                   height={24}
                   width="70%"
-                  sx={{ mb: 0.5, backgroundColor: 'rgba(192,132,252,0.5)' }}
+                  sx={{ mb: 0.5, backgroundColor: COLORS.PURPLE_ACCENT + "80" }}
                 />
                 <Skeleton
                   variant="text"
                   height={18}
                   width="40%"
-                  sx={{ mb: 0.5, backgroundColor: 'rgba(192,132,252,0.5)' }}
+                  sx={{ mb: 0.5, backgroundColor: COLORS.PURPLE_ACCENT + "80" }}
                 />
-                <Skeleton variant="text" height={24} width="30%" sx={{ backgroundColor: 'rgba(192,132,252,0.5)' }} />
+                <Skeleton
+                  variant="text"
+                  height={24}
+                  width="30%"
+                  sx={{ backgroundColor: COLORS.PURPLE_ACCENT + "80" }}
+                />
               </Box>
             ))}
           </Box>
@@ -240,7 +301,7 @@ export default function ProductsPage() {
             boxShadow: 3,
           },
           "& .MuiBackdrop-root": {
-            backgroundColor: "rgba(0, 0, 0, 0.2)",
+            backgroundColor: COLORS.FOOTER_BG_SOLID + "33",
           },
         }}
         PaperProps={{
@@ -257,7 +318,7 @@ export default function ProductsPage() {
             justifyContent: "space-between",
             mb: 2,
             borderBottom: "1px solid",
-            borderColor: "divider",
+            borderColor: COLORS.FOOTER_DIVIDER,
             pb: 2,
           }}
         >
@@ -266,9 +327,9 @@ export default function ProductsPage() {
             onClick={toggleMobileFilters}
             size="small"
             sx={{
-              bgcolor: "grey.100",
+              bgcolor: COLORS.WhiteBackground,
               "&:hover": {
-                bgcolor: "grey.200",
+                bgcolor: COLORS.WhiteBackground,
               },
             }}
           >
@@ -325,6 +386,10 @@ export default function ProductsPage() {
               sx={{
                 letterSpacing: "0.5px",
                 fontSize: { xs: "1.5rem", sm: "2rem" },
+                background: COLORS.GRADIENT_TEXT,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "transparent",
               }}
             />
             {loading && allProducts ? (
@@ -343,13 +408,13 @@ export default function ProductsPage() {
             <CustomLabel
               text={`${filteredProducts.length} PRODUCTS`}
               variant="body2"
-              color="text.secondary"
+              color={COLORS.FOOTER_LINK}
               fontSize="0.875rem"
             />
             <IconButton
               size="small"
               onClick={refreshProducts}
-              sx={{ ml: 1 }}
+              sx={{ ml: 1, color: COLORS.PURPLE_PRIMARY, '&:hover': { color: COLORS.PURPLE_DEEP } }}
               aria-label="refresh products"
             >
               <RefreshIcon fontSize="small" />
@@ -379,8 +444,7 @@ export default function ProductsPage() {
           </Box>
         )}
 
-  {/* Loading skeleton for products only */}
-  {showFullPageSkeleton ? (
+        {showFullPageSkeleton ? (
           <Box
             sx={{
               display: "grid",
@@ -393,21 +457,30 @@ export default function ProductsPage() {
                 <Skeleton
                   variant="rectangular"
                   height={200}
-                  sx={{ mb: 1, borderRadius: 1, backgroundColor: 'rgba(192,132,252,0.5)' }}
+                  sx={{
+                    mb: 1,
+                    borderRadius: 1,
+                    backgroundColor: COLORS.PURPLE_ACCENT + "80",
+                  }}
                 />
                 <Skeleton
                   variant="text"
                   height={24}
                   width="70%"
-                  sx={{ mb: 0.5, backgroundColor: 'rgba(192,132,252,0.5)' }}
+                  sx={{ mb: 0.5, backgroundColor: COLORS.PURPLE_ACCENT + "80" }}
                 />
                 <Skeleton
                   variant="text"
                   height={18}
                   width="40%"
-                  sx={{ mb: 0.5, backgroundColor: 'rgba(192,132,252,0.5)' }}
+                  sx={{ mb: 0.5, backgroundColor: COLORS.PURPLE_ACCENT + "80" }}
                 />
-                <Skeleton variant="text" height={24} width="30%" sx={{ backgroundColor: 'rgba(192,132,252,0.5)' }} />
+                <Skeleton
+                  variant="text"
+                  height={24}
+                  width="30%"
+                  sx={{ backgroundColor: COLORS.PURPLE_ACCENT + "80" }}
+                />
               </Box>
             ))}
           </Box>
@@ -416,20 +489,27 @@ export default function ProductsPage() {
             <CustomLabel
               text="No products found"
               variant="h6"
-              color="text.secondary"
+              color={COLORS.FOOTER_LINK}
               gutterBottom
             />
             <CustomLabel
               text="Try adjusting your filters or check back later"
               variant="body1"
-              color="text.secondary"
+              color={COLORS.FOOTER_LINK}
               sx={{ mb: 2 }}
             />
             <Button
-              variant="outlined"
+              variant="contained"
               startIcon={<RefreshIcon />}
               onClick={refreshProducts}
               size="small"
+              sx={{
+                background: COLORS.GRADIENT_CTA,
+                color: COLORS.textPrimary,
+                borderRadius: 1,
+                '&:hover': { background: COLORS.GRADIENT_CTA_HOVER },
+                textTransform: 'none',
+              }}
             >
               Refresh Products
             </Button>
