@@ -9,7 +9,10 @@ import { useNavigate } from "react-router-dom";
 import ProductCard from "../productsPageSections/ProductCard";
 import { useCachedData } from "../../hooks/useCachedData";
 import { fetchItems, type Item } from "../../services/api";
-import { Skeleton, Alert } from "@mui/material";
+import { Skeleton, Alert, Dialog, DialogTitle, DialogContent, DialogActions, TextField, RadioGroup, FormControlLabel, Radio, Checkbox, FormGroup, Snackbar } from "@mui/material";
+import { useState } from "react";
+import { useCart } from "../../context/CartContext";
+import CustomLabel from "../../components/common/CustomLabel";
 
 const FeaturedProductsSection: React.FC = () => {
   const navigate = useNavigate();
@@ -27,6 +30,41 @@ const FeaturedProductsSection: React.FC = () => {
   const handleViewAllProducts = () => {
     navigate("/products");
   };
+
+  // Basic plans -- initial data used to show plan options and subscription flow
+  const plans = [
+    {
+      id: "plan_personal_1",
+      title: "Personal Training",
+      subtitle: "One-on-one sessions with a certified trainer",
+      price: 350,
+      features: ["Personalized program", "Progress tracking", "Nutrition tips"],
+      type: "personal",
+    },
+    {
+      id: "plan_online_1",
+      title: "Online Training",
+      subtitle: "Remote guided training — ideal for busy schedules",
+      price: 300,
+      features: ["Live sessions", "Recorded workouts", "Weekly check-ins"],
+      type: "online",
+    },
+    {
+      id: "plan_scheduler_1",
+      title: "Session Scheduler",
+      subtitle: "Buy credits to schedule sessions independently",
+      price: 200,
+      features: ["Flexible bookings", "Multi-session credits", "Easy reschedule"],
+      type: "scheduler",
+    },
+  ];
+
+  const { addItem } = useCart();
+  const [selectedPlan, setSelectedPlan] = useState<any | null>(null);
+  const [sessionType, setSessionType] = useState("personal");
+  const [scheduleAt, setScheduleAt] = useState("");
+  const [followUp, setFollowUp] = useState(false);
+  const [successSnackbar, setSuccessSnackbar] = useState<string | null>(null);
 
   const containerVariants = {
     hidden: { opacity: 0, y: 18 },
@@ -50,6 +88,34 @@ const FeaturedProductsSection: React.FC = () => {
       transition: { type: "spring", stiffness: 200, damping: 18 },
     },
   } as const;
+
+  const openSubscribeModal = (plan: any) => {
+    setSelectedPlan(plan);
+    setSessionType(plan.type === "scheduler" ? "scheduler" : plan.type);
+    setScheduleAt("");
+    setFollowUp(false);
+  };
+
+  const closeSubscribeModal = () => {
+    setSelectedPlan(null);
+  };
+
+  const handleConfirmSubscription = () => {
+    if (!selectedPlan) return;
+
+    addItem({
+      product: selectedPlan.id,
+      _id: selectedPlan.id,
+      name: `${selectedPlan.title} (${sessionType})${followUp ? " - with follow-up" : ""}`,
+      price: selectedPlan.price,
+      image: "",
+      quantity: 1,
+    });
+
+    setSuccessSnackbar(`Added ${selectedPlan.title} to cart. Proceed to checkout or continue browsing.`);
+    closeSubscribeModal();
+    navigate("/checkout");
+  };
 
   if (error) {
     return (
@@ -116,6 +182,61 @@ const FeaturedProductsSection: React.FC = () => {
         </Box>
       </motion.div>
 
+      {/* Plans section - initial data for subscriptions & scheduling */}
+      <Box sx={{ maxWidth: 1200, mx: "auto", mb: 4 }}>
+          <Typography variant="h5" sx={{ mb: 2, fontWeight: 700, color: COLORS.textPrimary }}>
+          Plans & Subscriptions
+        </Typography>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", sm: "repeat(3, 1fr)" },
+            gap: 2,
+            mb: 2,
+          }}
+        >
+          {plans.map((plan) => (
+            <Box
+              key={plan.id}
+              sx={{
+                p: 2,
+                borderRadius: 2,
+                background: `linear-gradient(180deg, ${COLORS.BG_DARK_2}22 0%, ${COLORS.BG_DARK_1}11 100%)`,
+                border: `1px solid ${COLORS.FOOTER_DIVIDER}`,
+              }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+                {plan.title}
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 1, color: "rgba(255,255,255,0.75)" }}>
+                {plan.subtitle}
+              </Typography>
+              <Box sx={{ display: "flex", gap: 1, mb: 1, flexWrap: 'wrap' }}>
+                {plan.features.map((f: string) => (
+                  <CustomLabel key={f} text={f} variant="caption" color={COLORS.FOOTER_LINK} sx={{ mr: 1 }} />
+                ))}
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mt: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 700, color: COLORS.GYM_ACCENT }}>${plan.price}</Typography>
+                <Button
+                  size="small"
+                  variant="contained"
+                  onClick={() => openSubscribeModal(plan)}
+                  sx={{
+                    textTransform: 'none',
+                    backgroundImage: COLORS.GRADIENT_CTA,
+                    color: COLORS.textPrimary,
+                    '&:hover': { backgroundImage: COLORS.GRADIENT_CTA_HOVER }
+                  }}
+                >
+                  {plan.type === "scheduler" ? "Buy Scheduler" : "Subscribe"}
+                </Button>
+              </Box>
+            </Box>
+          ))}
+        </Box>
+      </Box>
+
       {loading ? (
         <motion.div
           initial="hidden"
@@ -145,7 +266,7 @@ const FeaturedProductsSection: React.FC = () => {
                   sx={{
                     mb: 2,
                     borderRadius: 2,
-                    backgroundColor: "rgba(192,132,252,0.5)",
+                    backgroundColor: COLORS.PURPLE_ACCENT + "40",
                   }}
                 />
                 <Skeleton
@@ -164,7 +285,7 @@ const FeaturedProductsSection: React.FC = () => {
                   variant="text"
                   height={32}
                   width="40%"
-                  sx={{ backgroundColor: "rgba(192,132,252,0.5)" }}
+                  sx={{ backgroundColor: COLORS.PURPLE_ACCENT + "40" }}
                 />
               </Box>
             ))}
@@ -245,6 +366,57 @@ const FeaturedProductsSection: React.FC = () => {
           </motion.div>
         </Box>
       </motion.div>
+
+      {/* Modal for subscription / scheduler flow */}
+      <Dialog open={!!selectedPlan} onClose={closeSubscribeModal} fullWidth maxWidth="sm">
+        <DialogTitle>
+          {selectedPlan ? `Subscribe: ${selectedPlan.title}` : "Subscribe"}
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" sx={{ mb: 2 }}>
+            {selectedPlan?.subtitle}
+          </Typography>
+
+          <Typography variant="subtitle2" sx={{ mb: 1 }}>
+            Choose Session Type
+          </Typography>
+          <RadioGroup value={sessionType} onChange={(e) => setSessionType(e.target.value)} row>
+            <FormControlLabel value="personal" control={<Radio />} label="Personal (in-person)" />
+            <FormControlLabel value="online" control={<Radio />} label="Online" />
+            <FormControlLabel value="scheduler" control={<Radio />} label="Scheduler" />
+          </RadioGroup>
+
+          <TextField
+            label="Preferred Date & Time"
+            type="datetime-local"
+            value={scheduleAt}
+            onChange={(e) => setScheduleAt(e.target.value)}
+            fullWidth
+            sx={{ mt: 2 }}
+            InputLabelProps={{ shrink: true }}
+          />
+
+          <FormGroup>
+            <FormControlLabel
+              control={<Checkbox checked={followUp} onChange={(e) => setFollowUp(e.target.checked)} />}
+              label="Add follow-up session"
+            />
+          </FormGroup>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeSubscribeModal}>Cancel</Button>
+          <Button variant="contained" onClick={handleConfirmSubscription} sx={{ textTransform: 'none', backgroundImage: COLORS.GRADIENT_CTA, color: COLORS.textPrimary, '&:hover': { backgroundImage: COLORS.GRADIENT_CTA_HOVER } }}>
+            Confirm & Add to Cart
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Snackbar
+        open={!!successSnackbar}
+        autoHideDuration={3500}
+        onClose={() => setSuccessSnackbar(null)}
+        message={successSnackbar || ""}
+      />
     </Box>
   );
 };
