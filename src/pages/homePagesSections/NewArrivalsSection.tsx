@@ -4,7 +4,6 @@ import Typography from "@mui/material/Typography";
 import { keyframes } from "@mui/system";
 import { Box as MuiBox } from '@mui/material';
 import { Star } from '@mui/icons-material';
-import AnimatedFire from '../../components/common/AnimatedFire';
 import { COLORS } from "../../assets/themeColors";
 
 const scrollAnimation = keyframes`
