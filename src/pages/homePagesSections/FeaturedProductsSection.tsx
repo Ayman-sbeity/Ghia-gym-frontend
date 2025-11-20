@@ -31,7 +31,6 @@ const FeaturedProductsSection: React.FC = () => {
     navigate("/products");
   };
 
-  // Basic plans -- initial data used to show plan options and subscription flow
   const plans = [
     {
       id: "plan_personal_1",
